@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PdfView">
+		<attr name="pageBackgroundColor" format="color" />
+		<attr name="pageSpacing" format="dimension" />
+		<attr name="zoomEnabled" format="boolean"/>
+		<attr name="zoom" format="float"/>
+		<attr name="maxZoom" format="float"/>
+		<attr name="minZoom" format="float"/>
+		<attr name="zoomDuration" format="integer"/>
+	</declare-styleable>
+</resources>

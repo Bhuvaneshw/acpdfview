@@ -1,0 +1,15 @@
+int attr maxZoom 0x0
+int attr minZoom 0x0
+int attr pageBackgroundColor 0x0
+int attr pageSpacing 0x0
+int attr zoom 0x0
+int attr zoomDuration 0x0
+int attr zoomEnabled 0x0
+int[] styleable PdfView { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
+int styleable PdfView_maxZoom 0
+int styleable PdfView_minZoom 1
+int styleable PdfView_pageBackgroundColor 2
+int styleable PdfView_pageSpacing 3
+int styleable PdfView_zoom 4
+int styleable PdfView_zoomDuration 5
+int styleable PdfView_zoomEnabled 6
