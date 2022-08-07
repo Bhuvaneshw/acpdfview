@@ -26,6 +26,7 @@ dependencies {
     implementation 'com.github.Bhuvaneshw:acpdfview:v1.0.0'
 }
 ```
+Change version with current release. [See Release](../../releases/)
 
 Step 3. Declare View in xml
 ```
