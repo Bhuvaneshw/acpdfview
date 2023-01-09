@@ -15,7 +15,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfRenderer;
 import android.os.ParcelFileDescriptor;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -98,7 +97,6 @@ final class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder>
             if (!fling) {
                 handler.add(new Task<>(() -> {
                     try {
-                        Log.e("render","Pos: "+pos);
                         final ParcelFileDescriptor fd = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
                         final PdfRenderer renderer2 = new PdfRenderer(fd);
                         final PdfRenderer.Page page2 = renderer2.openPage(position);
