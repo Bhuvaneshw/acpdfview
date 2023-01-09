@@ -23,7 +23,7 @@ allprojects {
 Step 2. Add the dependency
 ```
 dependencies {
-    implementation 'com.github.Bhuvaneshw:acpdfview:v1.1.0'
+    implementation 'com.github.Bhuvaneshw:acpdfview:v1.1.1'
 }
 ```
 Latest Version.<br/>
