@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
  Everyone is permitted to copy and distribute verbatim copies
  of this license document, but changing it is not allowed.
 
-    ACPdfView  Copyright (C) 2022  Bhuvaneshwaran
+    ACPdfView  Copyright (C) 2023  Bhuvaneshwaran
     This program comes with ABSOLUTELY NO WARRANTY;
     This is free software, and you are welcome to redistribute it
     under certain conditions;
