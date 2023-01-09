@@ -4,7 +4,7 @@ A simple light weight and smooth PDF View for Android. Written in Java.
 ## Screenshots
 
  <pre>
- <img src="screenshots/screenshot1.jpg" width="300" alt="screeonshot1">    <img src="screenshots/screenshot2.jpg" width="300" alt="screeonshot2">
+ <img src="screenshots/screenshot-1.jpg" width="300" alt="screeonshot1">    <img src="screenshots/screenshot-2.jpg" width="300" alt="screeonshot2">
 </pre>
 
 ## Implementation
