@@ -1,9 +1,0 @@
-com.acutecoder.pdf
-attr maxZoom
-attr minZoom
-attr pageBackgroundColor
-attr pageSpacing
-attr zoom
-attr zoomDuration
-attr zoomEnabled
-styleable PdfView maxZoom minZoom pageBackgroundColor pageSpacing zoom zoomDuration zoomEnabled
