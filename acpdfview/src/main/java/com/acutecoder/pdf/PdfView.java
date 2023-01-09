@@ -113,6 +113,12 @@ public final class PdfView extends ViewGroup {
 //        adapter.notifyDataSetChanged(); //RecyclerView handles this, :-)
     }
 
+    public void refresh() {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     public boolean isDarkMode() {
         return isDarkMode;
     }
