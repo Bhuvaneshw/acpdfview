@@ -23,7 +23,7 @@ allprojects {
 Step 2. Add the dependency
 ```
 dependencies {
-    implementation 'com.github.Bhuvaneshw:acpdfview:v1.1.1'
+    implementation 'com.github.Bhuvaneshw:acpdfview:v1.1.3'
 }
 ```
 Latest Version.<br/>
@@ -71,8 +71,12 @@ public class MainActivity extends AppCompatActivity {
 
         scrollBar.attachTo(pdfView);
         pdfView.setZoomEnabled(true);
-        pdfView.setMaxZoomScale(3);
-        pdfView.setPath(new File(getFilesDir() + "/pdf.pdf"));
+        pdfView.setMaxZoomScale(3); //Maximum Zoom
+        pdfView.setPath(new File("/sdcard/Download/pdf.pdf")); //Normal File loaction
+	// pdfView.setPath(new TemporaryFile(R.raw.pdf)); //Raw File
+	// pdfView.setPath(new TemporaryFile("pdfs/MyPdfFile.pdf")); //Asset File
+	// pdfView.setQuality(0.8f); //80%
+        // pdfView.setModFlingLimit(0);
         pdfView.addOnActionListener(new OnActionListener() {
             @Override
             public void onLoaded() {
