@@ -52,7 +52,8 @@ public class PdfScrollBar extends LinearLayout {
         pdfView.addOnActionListener(new OnActionListener() {
             @Override
             public void onStartLoad() {
-                init();
+                if (view == null)
+                    init();
             }
 
             @Override
@@ -103,7 +104,7 @@ public class PdfScrollBar extends LinearLayout {
             String newText = currentPage + "/" + totalPage;
             String oldText = textView.getText().toString();
             textView.setText(newText);
-                if (oldText.length() == newText.length()) return;
+            if (oldText.length() == newText.length()) return;
             ViewGroup.LayoutParams lp = view.getLayoutParams();
             lp.width = (int) (2 * textView.getPaint().measureText(newText));
             textView.setLayoutParams(lp);
@@ -129,7 +130,7 @@ public class PdfScrollBar extends LinearLayout {
         int cPos = (int) Math.ceil(y * totalPage / getHeight());
         onPageUpdate(view, fPos + 1, totalPage);
         if (updatePdfView) {
-            pdfView.scrollToPage(cPos);
+            pdfView.scrollToPage(cPos + 1);
         }
     }
 

@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfRenderer;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,38 +37,38 @@ final class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder>
             0, 0, 0, 1.0f, 0  // alpha
     };
     private final Context context;
-    private final File file;
+    private final PdfRecyclerView recyclerView;
     private final TaskHandler handler;
-    private PdfRenderer renderer;
+    private PdfRenderer detailsRenderer, pageRenderer;
     private boolean isDarkMode;
     private float scale = 1f, width = 0;
-    private boolean fling;
+    private boolean fling = false;
     private int modFlingLimit = 3000;
     private Drawable drawable;
 
     @SuppressLint("NotifyDataSetChanged")
-    public PdfAdapter(Context context, File file, PdfRecyclerView recycler, boolean isDarkMode) {
+    public PdfAdapter(Context context, PdfRecyclerView recyclerView) {
         this.context = context;
-        this.file = file;
+        this.recyclerView = recyclerView;
         handler = new TaskHandler();
-        setDarkMode(isDarkMode);
-//        new Task<>(() -> {
-//
-//            return null;
-//        }, r -> notifyDataSetChanged(), -1).start();
+    }
+
+    public void setFile(File file) {
         try {
-            ParcelFileDescriptor fd = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
-            renderer = new PdfRenderer(fd);
-            recycler.setTotalPage(renderer.getPageCount());
-        } catch (Exception ignored) {
+            if (file instanceof TemporaryFile)
+                file = ((TemporaryFile) file).getTempFile(context, context.getCacheDir() + "/PdfView/");
+            detailsRenderer = new PdfRenderer(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY));
+            pageRenderer = new PdfRenderer(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY));
+            recyclerView.setTotalPage(detailsRenderer.getPageCount());
+        } catch (Exception e) {
+            Log.e("adp", e.toString());
         }
     }
 
-    @SuppressLint("ResourceType")
     @NonNull
     @Override
+    @SuppressLint("ResourceType,InflateParams")
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        @SuppressLint("InflateParams")
         LinearLayout view = new LinearLayout(context);
         view.setPadding(20, 20, 20, 20);
         View imageView = new ImageView(context);
@@ -80,9 +81,9 @@ final class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder>
     @Override
     @SuppressLint("ResourceType")
     public void onBindViewHolder(@NonNull ViewHolder holder, int pos) {
-        if (width > 0 && renderer != null) {
+        if (width > 0 && detailsRenderer != null) {
             final int position = pos;
-            PdfRenderer.Page page = renderer.openPage(position);
+            PdfRenderer.Page page = detailsRenderer.openPage(position);
             final ImageView imageView = holder.itemView.findViewById(1001);
             imageView.setImageDrawable(null);
             imageView.setBackground(drawable.mutate());
@@ -97,9 +98,7 @@ final class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder>
             if (!fling) {
                 handler.add(new Task<>(() -> {
                     try {
-                        final ParcelFileDescriptor fd = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
-                        final PdfRenderer renderer2 = new PdfRenderer(fd);
-                        final PdfRenderer.Page page2 = renderer2.openPage(position);
+                        final PdfRenderer.Page page2 = pageRenderer.openPage(position);
                         final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                         page2.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
                         page2.close();
@@ -107,7 +106,6 @@ final class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder>
                         if (isDarkMode)
                             drawable.setColorFilter(new ColorMatrixColorFilter(NEGATIVE));
                         imageView.setImageDrawable(drawable);
-                        return bitmap;
                     } catch (Exception ignored) {
                     }
                     return null;
@@ -121,7 +119,7 @@ final class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder>
     @Override
     public int getItemCount() {
         try {
-            return renderer.getPageCount();
+            return detailsRenderer.getPageCount();
         } catch (Exception e) {
             return 0;
         }
@@ -183,7 +181,7 @@ final class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder>
         this.width = width - 40;
     }
 
-    void refresh(PdfRecyclerView recyclerView) {
+    public void refresh(PdfRecyclerView recyclerView) {
         int start = recyclerView.findFirstVisiblePosition();
         int end = recyclerView.findLastVisiblePosition();
         refreshViewHolder(recyclerView, start, end);
@@ -191,6 +189,10 @@ final class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder>
 
     void setBackground(Drawable drawable) {
         this.drawable = drawable;
+    }
+
+    float getScale() {
+        return scale;
     }
 
     private void refreshViewHolder(PdfRecyclerView recyclerView, int start, int end) {

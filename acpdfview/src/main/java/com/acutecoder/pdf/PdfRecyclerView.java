@@ -92,6 +92,10 @@ final class PdfRecyclerView extends RecyclerView {
         setNestedScrollingEnabled(false);
     }
 
+    public void delete() throws Throwable {
+        finalize();
+    }
+
     void setMaxScaleFactor(float mMaxScaleFactor) {
         this.mMaxScaleFactor = mMaxScaleFactor;
     }
