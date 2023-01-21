@@ -8,6 +8,7 @@ A simple light weight and smooth PDF View for Android. Written in Java.
 </pre>
 
 ## Implementation
+<a href="https://acutecoder.blogspot.com/2023/01/pdf-viewer-android.html">See Tutorial</a><br><br>
 Step 1. Add the JitPack repository to your build file
 
 Add it in your root build.gradle at the end of repositories:
