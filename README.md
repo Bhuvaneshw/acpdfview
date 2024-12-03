@@ -1,3 +1,4 @@
+[See PdfViewer](https://github.com/bhuvaneshw/pdfviewer) for a fully-fledged PDF viewer.
 # ACPdfView
 A simple light weight and smooth PDF View for Android. Written in Java.
 
